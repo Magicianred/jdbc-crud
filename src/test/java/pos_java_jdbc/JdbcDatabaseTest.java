@@ -41,9 +41,26 @@ public class JdbcDatabaseTest {
         UserPosDAO dao = new UserPosDAO();
 
         try {
+            // Objeto recebe todos os dados do resultado referente ao ID 1
             Userposjava userposjava = dao.search(1L);
 
             System.out.println(userposjava);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void initUpdate() {
+        try {
+            UserPosDAO dao = new UserPosDAO();
+
+            Userposjava databaseObject = dao.search(5L);
+
+            databaseObject.setName("Nome modificado com UPDATE");
+
+            dao.update(databaseObject);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
