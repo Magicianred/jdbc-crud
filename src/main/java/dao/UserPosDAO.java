@@ -2,7 +2,10 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import conexaojdbc.SingleConnection;
 import model.Userposjava;
@@ -32,5 +35,44 @@ public class UserPosDAO {
             }
             e.printStackTrace();
         }
+    }
+
+    // Retorna todos os registros em uma lista
+    public List<Userposjava> list() throws Exception {
+        List<Userposjava> list = new ArrayList<Userposjava>();
+
+        String sql = "SELECT * from userposjava";
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+
+        while (result.next()) { // Enquanto tiver dados, execute:
+            Userposjava userposjava = new Userposjava();
+            userposjava.setId(result.getLong("id"));
+            userposjava.setName(result.getString("nome"));
+            userposjava.setEmail(result.getString("email"));
+
+            list.add(userposjava);
+        }
+
+        return list;
+    }
+
+    // Retorna apenas um registro
+    public Userposjava search(Long id) throws Exception {
+        Userposjava record = new Userposjava();
+
+        String sql = "SELECT * from userposjava WHERE id = " + id;
+
+        PreparedStatement statement = connection.prepareStatement(sql);
+        ResultSet result = statement.executeQuery();
+
+        while (result.next()) { // Enquanto tiver dados, execute:
+            record.setId(result.getLong("id"));
+            record.setName(result.getString("nome"));
+            record.setEmail(result.getString("email"));
+        }
+
+        return record;
     }
 }
