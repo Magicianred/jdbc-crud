@@ -13,9 +13,8 @@ public class JdbcDatabaseTest {
         UserPosDAO userPosDAO = new UserPosDAO();
         Userposjava userposjava = new Userposjava();
 
-        userposjava.setId(5L);
-        userposjava.setName("Pedro");
-        userposjava.setEmail("pedro@teste.com");
+        userposjava.setName("New user2");
+        userposjava.setEmail("new2@teste.com");
 
         userPosDAO.save(userposjava);
     }
@@ -61,6 +60,17 @@ public class JdbcDatabaseTest {
 
             dao.update(databaseObject);
 
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void initDelete() {
+        try {
+            UserPosDAO dao = new UserPosDAO();
+
+            dao.delete(4L);
         } catch (Exception e) {
             e.printStackTrace();
         }
