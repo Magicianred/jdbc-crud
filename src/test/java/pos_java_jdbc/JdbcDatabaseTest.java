@@ -95,10 +95,18 @@ public class JdbcDatabaseTest {
         UserPosDAO dao = new UserPosDAO();
 
         List<BeanUserPhone> beanUserPhone = dao.listUserFone(9L);
-
+        
         for (BeanUserPhone beanUserPhones : beanUserPhone) {
             System.out.println(beanUserPhones);
             System.out.println("------------");
         }
+    }
+
+    // Exclusão de dados em cascata de tabela filho e pai
+    @Test
+    public void deleteUserTelephone() {
+        UserPosDAO dao = new UserPosDAO();
+        dao.deleteUserPhone(9L);
+
     }
 }

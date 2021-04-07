@@ -98,6 +98,7 @@ public class UserPosDAO {
         return record;
     }
 
+    // Retorna lista de usarios com número de telefone
     public List<BeanUserPhone> listUserFone (Long idUser) {
         List<BeanUserPhone> beanUserPhone = new ArrayList<BeanUserPhone>();
 
@@ -108,17 +109,18 @@ public class UserPosDAO {
 
         try {
             PreparedStatement statement = connection.prepareStatement(sql);
-            // ResultSet guarda os dados vindos do DB
+            // Objeto ResultSet guarda os dados vindos do DB
             ResultSet result = statement.executeQuery();
 
             while (result.next()) {
                 BeanUserPhone userPhone = new BeanUserPhone();
-                
+
+                // Seta o objeto com os dados vindos do DB
                 userPhone.setEmail(result.getString("email"));
                 userPhone.setName(result.getString("nome"));
                 userPhone.setNumber(result.getString("numero"));
 
-                beanUserPhone.add(userPhone);
+                beanUserPhone.add(userPhone); // Adiciona o objeto à lista
             }
 
         } catch (SQLException e) {
@@ -166,6 +168,32 @@ public class UserPosDAO {
             }
 
             e.printStackTrace();
+        }
+    }
+
+    public void deleteUserPhone(Long idUser) {
+        String sqlPhone = "DELETE FROM telefoneuser WHERE usuariopessoa = " + idUser; 
+        String sqlUser = "DELETE FROM userposjava WHERE id = " + idUser;
+    
+        try {
+            // Deleta primeiro a tabela filho de telefone
+            PreparedStatement statement = connection.prepareStatement(sqlPhone);
+            statement.executeUpdate();
+            connection.commit();
+
+            // Em seguida deleta a tabela de usuário
+            statement = connection.prepareStatement(sqlUser);
+            statement.executeUpdate();
+            connection.commit();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            try {
+                connection.rollback();
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 }
